@@ -198,7 +198,21 @@ jobs:
         <li><strong>Dynamic Credentials:</strong> Temporary credentials are obtained at runtime, minimizing the risk window if compromised.</li>
         <li><strong>Granular Permissions:</strong> Permissions can be scoped to specific repositories and branches, providing fine-grained control over who can assume the role.</li>
     </ul>
-    
+    <h2>Examples of Secure AWS Command Usage</h2>
+    <p>Here are some examples of how to use AWS commands securely without storing credentials in your code repository:</p>
+    <h3>Copy to S3</h3>
+    <pre><code>
+    - name: Copy to S3
+      id: run S3 command
+      run: |
+        aws s3 cp s3://s3-bucket/foldername/output.txt output.txt
+    </code></pre>
+    <h3>Login to Amazon ECR</h3>
+    <pre><code>
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+    </code></pre>
     <h2>Conclusion</h2>
     
     <p>By adopting OIDC roles for AWS access, you significantly enhance the security of your development and deployment workflows. This approach eliminates the need to store AWS credentials in GitHub, reducing the risk of unauthorized access and potential security breaches. Start using OIDC roles today to secure your cloud resources and streamline your CI/CD processes.</p>
