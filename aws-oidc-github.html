@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <title>Raghav`s Blog</title>
+    
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog Template">
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media">    
+    <link rel="shortcut icon" href="favicon.ico"> 
+    
+    <!-- FontAwesome JS-->
+    <script defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js" integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7" crossorigin="anonymous"></script>
+    
+    <!-- Theme CSS -->  
+    <link id="theme-style" rel="stylesheet" href="assets/css/theme-1.css">
+   <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E3BJRE9B0V"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4248661427019781" crossorigin="anonymous"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E3BJRE9B0V');
+</script>
+    
+
+</head> 
+
+<body>
+    
+    <header class="header text-center">     
+      <h1 class="blog-name pt-lg-4 mb-0"><a href="index.html">Raghav's Blog</a></h1>
+        
+      <nav class="navbar navbar-expand-lg navbar-dark" >
+           
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="navigation" class="collapse navbar-collapse flex-column" >
+        <div class="profile-section pt-3 pt-lg-0">
+            <img class="profile-image mb-3 rounded-circle mx-auto" src="assets/images/profile.png" alt="image" >      
+          
+          <div class="bio mb-3">Hi, my name is Raghav Bhat.<br><a href="about.html">Find out more about me</a></div><!--//bio-->
+          <ul class="social-list list-inline py-3 mx-auto">
+                  <li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in fa-fw"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fab fa-github-alt fa-fw"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fab fa-stack-overflow fa-fw"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fab fa-codepen fa-fw"></i></a></li>
+              </ul><!--//social-list-->
+              <hr> 
+        </div><!--//profile-section-->
+        
+        <ul class="navbar-nav flex-column text-left">
+          <li class="nav-item">
+              <a class="nav-link" href="index.html"><i class="fas fa-home fa-fw mr-2"></i>Blog Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="blog-post.html"><i class="fas fa-bookmark fa-fw mr-2"></i>Blog Post</a>
+          </li>
+          <li class="nav-item active">
+              <a class="nav-link" href="about.html"><i class="fas fa-user fa-fw mr-2"></i>About Me</a>
+          </li>
+        </ul>
+        
+        <div class="my-2 my-md-3">
+          
+            <a class="btn btn-primary" href="https://themes.3rdwavemedia.com/" target="_blank">Get in Touch</a>
+            
+        </div>
+      </div>
+    </nav>
+    </header>
+    
+    <div class="main-wrapper">
+            
+      <article class="about-section py-5">
+        <div class="container">
+          <h2 class="title mb-3">Secure Your AWS Access: Using OIDC Instead of Storing Credentials in GitHub</h2>
+          
+         <p>In today's cloud-driven world, security is paramount. One common pitfall that developers and organizations encounter is the improper handling of AWS credentials, such as storing them in version control systems like GitHub. This practice can lead to significant security vulnerabilities. In this blog post, we'll discuss why storing AWS credentials in GitHub is a bad idea and how you can leverage OpenID Connect (OIDC) roles to securely access your AWS resources.</p>
+    
+    <h2>The Risks of Storing AWS Credentials in GitHub</h2>
+    
+    <p>Storing AWS credentials in GitHub, even in private repositories, exposes you to several risks:</p>
+    
+    <ul>
+        <li><strong>Unauthorized Access:</strong> If your repository is compromised, anyone with access can use your AWS credentials to access your resources, potentially causing data breaches or unauthorized modifications.</li>
+        <li><strong>Accidental Exposure:</strong> Developers might inadvertently commit credentials to a public repository, making them visible to the world. This can happen even with the best intentions and precautions.</li>
+        <li><strong>Static Credentials:</strong> Hardcoding credentials means they remain static until manually rotated or revoked, increasing the window of opportunity for misuse if they are compromised.</li>
+    </ul>
+    
+    <h2>Introducing OIDC Roles for Secure Access</h2>
+    
+    <p>Instead of storing AWS credentials in GitHub, you can use OIDC roles to securely assume AWS roles. OIDC allows GitHub Actions to obtain temporary, limited-privilege AWS credentials dynamically, without the need for hardcoded secrets. Here’s how you can set this up:</p>
+    
+    <h2>Setting Up OIDC with GitHub Actions</h2>
+    
+    <h3>Step 1: Create an OIDC Identity Provider in AWS</h3>
+    
+    <p>First, you'll need to create an OIDC identity provider in your AWS account. This provider will trust GitHub as an OIDC provider.</p>
+    
+    <ol>
+        <li><strong>Navigate to the IAM console:</strong>
+            <ul>
+                <li>Go to the IAM service in the AWS Management Console.</li>
+                <li>In the left navigation pane, select "Identity providers" and then click "Add provider."</li>
+            </ul>
+        </li>
+        <li><strong>Configure the provider:</strong>
+            <ul>
+                <li>Choose "OpenID Connect" as the provider type.</li>
+                <li>For the provider URL, enter <code>https://token.actions.githubusercontent.com</code>.</li>
+                <li>Add the audience <code>sts.amazonaws.com</code>.</li>
+                <li>Click "Add provider."</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <h3>Step 2: Create an IAM Role with Trust Relationship</h3>
+    
+    <p>Next, create an IAM role that can be assumed by the GitHub OIDC provider.</p>
+    
+    <ol>
+        <li><strong>Create the role:</strong>
+            <ul>
+                <li>In the IAM console, go to "Roles" and click "Create role."</li>
+                <li>Choose "Web identity" as the trusted entity type and select the OIDC provider you created.</li>
+            </ul>
+        </li>
+        <li><strong>Configure the role:</strong>
+            <ul>
+                <li>Add the following condition to the role’s trust policy to limit access to specific GitHub repositories:
+                    <pre><code>{
+    "Condition": {
+        "StringEquals": {
+            "token.actions.githubusercontent.com:sub": "repo:your-username/your-repo-name:ref:refs/heads/main"
+        }
+    }
+}</code></pre>
+                </li>
+                <li>Attach the necessary policies to the role to allow access to the required AWS resources.</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <h3>Step 3: Configure GitHub Actions Workflow</h3>
+    
+    <p>Finally, configure your GitHub Actions workflow to use the OIDC provider to assume the role.</p>
+    
+    <ol>
+        <li><strong>Create a GitHub Actions workflow:</strong>
+            <ul>
+                <li>In your repository, create a new workflow file (e.g., <code>.github/workflows/deploy.yml</code>).</li>
+            </ul>
+        </li>
+        <li><strong>Configure the workflow:</strong>
+            <pre><code>name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/YourOIDCRole
+          aws-region: us-east-1
+
+      - name: Deploy to AWS
+        run: |
+          # Your deployment commands here
+</code></pre>
+        </li>
+    </ol>
+    
+    <h2>Benefits of Using OIDC Roles</h2>
+    
+    <ul>
+        <li><strong>Enhanced Security:</strong> Credentials are not stored in the repository, reducing the risk of accidental exposure.</li>
+        <li><strong>Dynamic Credentials:</strong> Temporary credentials are obtained at runtime, minimizing the risk window if compromised.</li>
+        <li><strong>Granular Permissions:</strong> Permissions can be scoped to specific repositories and branches, providing fine-grained control over who can assume the role.</li>
+    </ul>
+    
+    <h2>Conclusion</h2>
+    
+    <p>By adopting OIDC roles for AWS access, you significantly enhance the security of your development and deployment workflows. This approach eliminates the need to store AWS credentials in GitHub, reducing the risk of unauthorized access and potential security breaches. Start using OIDC roles today to secure your cloud resources and streamline your CI/CD processes.</p>
+        </div>
+      </article><!--//about-section-->
+      
+      <section class="cta-section theme-bg-light py-5">
+        <div class="container text-center">
+          <h2 class="heading">Newsletter</h2>
+          <div class="intro">Welcome to my blog. Subscribe and get my latest blog post in your inbox.</div>
+          <form class="signup-form form-inline justify-content-center pt-3">
+                    <div class="form-group">
+                        <label class="sr-only" for="semail">Your email</label>
+                        <input type="email" id="semail" name="semail1" class="form-control mr-md-1 semail" placeholder="Enter email">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+        </div><!--//container-->
+      </section>
+      
+      <footer class="footer text-center py-2 theme-bg-dark">
+       
+          <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can buy the commercial license via our website: themes.3rdwavemedia.com */-->
+            <small class="copyright">Designed with <i class="fas fa-heart" style="color: #fb866a;"></i> by <a href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
+       
+      </footer>
+    
+    </div><!--//main-wrapper-->
+    
+
+    <!-- *****CONFIGURE STYLE (REMOVE ON YOUR PRODUCTION SITE)****** -->  
+    <div id="config-panel" class="config-panel d-none d-lg-block">
+        <div class="panel-inner">
+            <a id="config-trigger" class="config-trigger config-panel-hide text-center" href="#"><i class="fas fa-cog fa-spin mx-auto" data-fa-transform="down-6" ></i></a>
+            <h5 class="panel-title">Choose Colour</h5>
+            <ul id="color-options" class="list-inline mb-0">
+                <li class="theme-1 active list-inline-item"><a data-style="assets/css/theme-1.css" href="#"></a></li>
+                <li class="theme-2  list-inline-item"><a data-style="assets/css/theme-2.css" href="#"></a></li>
+                <li class="theme-3  list-inline-item"><a data-style="assets/css/theme-3.css" href="#"></a></li>
+                <li class="theme-4  list-inline-item"><a data-style="assets/css/theme-4.css" href="#"></a></li>
+                <li class="theme-5  list-inline-item"><a data-style="assets/css/theme-5.css" href="#"></a></li>
+                <li class="theme-6  list-inline-item"><a data-style="assets/css/theme-6.css" href="#"></a></li>
+                <li class="theme-7  list-inline-item"><a data-style="assets/css/theme-7.css" href="#"></a></li>
+                <li class="theme-8  list-inline-item"><a data-style="assets/css/theme-8.css" href="#"></a></li>
+            </ul>
+            <a id="config-close" class="close" href="#"><i class="fa fa-times-circle"></i></a>
+        </div><!--//panel-inner-->
+    </div><!--//configure-panel-->
+
+    
+       
+    <!-- Javascript -->          
+    <script src="assets/plugins/jquery-3.3.1.min.js"></script>
+    <script src="assets/plugins/popper.min.js"></script> 
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script> 
+    
+    <!-- Style Switcher (REMOVE ON YOUR PRODUCTION SITE) -->
+    <script src="assets/js/demo/style-switcher.js"></script>     
+    
+
+</body>
+</html> 
